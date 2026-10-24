@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b5cad">
+<title>Mis Acreditaciones</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icono-192.png">
+<link rel="apple-touch-icon" href="icono-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Acreditaciones">
+<style>
+:root {
+  --bg: #f3f5f7; --card: #ffffff; --text: #15202b; --muted: #586674; --line: #dce2e8;
+  --accent: #0b5cad; --accent-text: #ffffff; --focus: #0b5cad55;
+  --ok: #1b7a37; --ok-bg: #e2f3e7; --warn: #8a5800; --warn-bg: #fff2d4;
+  --bad: #b3261e; --bad-bg: #fde6e3; --na: #586674; --na-bg: #eceff2;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1317; --card: #172027; --text: #e7ecf0; --muted: #98a6b2; --line: #29343d;
+    --accent: #5aa2ec; --accent-text: #06121e; --focus: #5aa2ec55;
+    --ok: #6fd38c; --ok-bg: #14301e; --warn: #f2c04d; --warn-bg: #33290d;
+    --bad: #ff8a80; --bad-bg: #3a1714; --na: #98a6b2; --na-bg: #222b33;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+.top { background: var(--card); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
+.top svg { flex: none; color: var(--accent); }
+h1 { font-size: 20px; margin: 0; line-height: 1.2; }
+.sub { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.sub .off { color: var(--warn); font-weight: 600; }
+main { padding-top: 16px; padding-bottom: 24px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.aviso { background: var(--warn-bg); color: var(--warn); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
+.instalar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding: 12px 14px; }
+.instalar p { margin: 0; font-size: 14px; }
+.instalar button { min-height: 40px; padding: 8px 14px; flex: none; }
+label { display: block; font-weight: 600; margin-bottom: 8px; }
+.row { display: flex; gap: 8px; }
+input { flex: 1; min-width: 0; font: inherit; font-size: 22px; letter-spacing: 1px; padding: 12px 14px;
+  border: 2px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); }
+input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--focus); }
+button { font: inherit; font-weight: 700; border: 0; border-radius: 10px; padding: 12px 18px; cursor: pointer;
+  background: var(--accent); color: var(--accent-text); min-height: 48px; }
+button:disabled { opacity: .6; cursor: progress; }
+button.sec { background: transparent; color: var(--accent); border: 2px solid var(--line); width: 100%; margin-top: 12px; }
+.hint { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+#res { margin-top: 16px; }
+.persona .nombre { font-size: 19px; font-weight: 700; line-height: 1.25; }
+.persona .meta { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.resumen { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.chip { font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+.ok { color: var(--ok); background: var(--ok-bg); }
+.warn { color: var(--warn); background: var(--warn-bg); }
+.bad { color: var(--bad); background: var(--bad-bg); }
+.na { color: var(--na); background: var(--na-bg); }
+.lista { display: grid; gap: 10px; margin-top: 12px; }
+.curso { background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--na); border-radius: 12px; padding: 12px 14px; }
+.curso.k-ok { border-left-color: var(--ok); }
+.curso.k-warn { border-left-color: var(--warn); }
+.curso.k-bad { border-left-color: var(--bad); }
+.curso .cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.curso .tit { font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+.curso .chip { flex: none; }
+.fechas { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 6px; font-size: 14px; color: var(--muted); }
+.fechas b { color: var(--text); font-weight: 600; }
+.dias { margin-top: 4px; font-size: 14px; font-weight: 600; }
+.vacio { text-align: center; }
+.vacio .ico { font-size: 34px; }
+.vacio p { margin: 6px 0 0; color: var(--muted); }
+.pie { color: var(--muted); font-size: 12px; padding-bottom: 24px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+    <div>
+      <h1>Mis Acreditaciones</h1>
+      <p class="sub" id="fechaDatos">Cargando datos…</p>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div id="aviso" class="aviso" hidden></div>
+  <div id="instalar" class="card instalar" hidden>
+    <p id="instalarTxt">Instala la app en tu celular para consultarla sin señal.</p>
+    <button id="instalarBtn" type="button">Instalar</button>
+  </div>
+  <form id="f" class="card" autocomplete="off">
+    <label for="dni">Ingresa tu número de DNI</label>
+    <div class="row">
+      <input id="dni" inputmode="numeric" maxlength="15" placeholder="Ej. 45871236" autocomplete="off" spellcheck="false" aria-describedby="hint">
+      <button id="btn" type="submit" disabled>Consultar</button>
+    </div>
+    <p class="hint" id="hint">Funciona sin internet. Solo se muestran los cursos del DNI ingresado.</p>
+  </form>
+  <section id="res" aria-live="polite"></section>
+</main>
+<footer class="wrap pie">
+  Si ves un dato incorrecto o te falta un curso, comunícate con tu supervisor o con el área de Capacitación.
+</footer>
+<script>
+// Cifrado por DNI: cada registro se guarda cifrado con una clave derivada del propio DNI.
+// Sin el DNI correcto no se puede leer el registro ni saber a quién pertenece.
+var ACR_K = new Uint32Array([
+  0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+]);
+var ACR_W = new Uint32Array(64);
+
+function acrSha256(msg) {
+  var l = msg.length, nb = (l + 9 + 63) >> 6, w = new Uint32Array(nb * 16), i, t;
+  for (i = 0; i < l; i++) w[i >> 2] |= msg[i] << (24 - (i & 3) * 8);
+  w[l >> 2] |= 0x80 << (24 - (l & 3) * 8);
+  w[nb * 16 - 1] = l * 8;
+  var h0 = 0x6a09e667, h1 = 0xbb67ae85, h2 = 0x3c6ef372, h3 = 0xa54ff53a,
+      h4 = 0x510e527f, h5 = 0x9b05688c, h6 = 0x1f83d9ab, h7 = 0x5be0cd19, W = ACR_W, K = ACR_K;
+  for (var b = 0; b < nb; b++) {
+    for (t = 0; t < 16; t++) W[t] = w[b * 16 + t];
+    for (t = 16; t < 64; t++) {
+      var x = W[t - 15], y = W[t - 2];
+      var s0 = ((x >>> 7) | (x << 25)) ^ ((x >>> 18) | (x << 14)) ^ (x >>> 3);
+      var s1 = ((y >>> 17) | (y << 15)) ^ ((y >>> 19) | (y << 13)) ^ (y >>> 10);
+      W[t] = (W[t - 16] + s0 + W[t - 7] + s1) | 0;
+    }
+    var a = h0, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7, bb = h1;
+    for (t = 0; t < 64; t++) {
+      var S1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+      var t1 = (h + S1 + ((e & f) ^ (~e & g)) + K[t] + W[t]) | 0;
+      var S0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+      var t2 = (S0 + ((a & bb) ^ (a & c) ^ (bb & c))) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0;
+    }
+    h0 = (h0 + a) | 0; h1 = (h1 + bb) | 0; h2 = (h2 + c) | 0; h3 = (h3 + d) | 0;
+    h4 = (h4 + e) | 0; h5 = (h5 + f) | 0; h6 = (h6 + g) | 0; h7 = (h7 + h) | 0;
+  }
+  var out = new Uint8Array(32), hs = [h0, h1, h2, h3, h4, h5, h6, h7];
+  for (i = 0; i < 8; i++) {
+    out[i * 4] = hs[i] >>> 24; out[i * 4 + 1] = hs[i] >>> 16; out[i * 4 + 2] = hs[i] >>> 8; out[i * 4 + 3] = hs[i];
+  }
+  return out;
+}
+
+function acrUtf8(s) { return new TextEncoder().encode(s); }
+function acrHex(b) { var s = ''; for (var i = 0; i < b.length; i++) s += (b[i] < 16 ? '0' : '') + b[i].toString(16); return s; }
+function acrConcat(a, b) { var o = new Uint8Array(a.length + b.length); o.set(a); o.set(b, a.length); return o; }
+
+// Hashing repetido para que probar DNIs uno por uno sea lento.
+function acrDerive(salt, dni, iter) {
+  var x = acrSha256(acrUtf8(salt + '|' + dni));
+  for (var i = 0; i < iter; i++) x = acrSha256(x);
+  return { idx: acrHex(acrSha256(acrConcat(x, [1]))).slice(0, 24), key: acrSha256(acrConcat(x, [2])) };
+}
+
+function acrXor(key, data) {
+  var out = new Uint8Array(data.length), blk = new Uint8Array(36);
+  blk.set(key);
+  for (var off = 0, c = 0; off < data.length; off += 32, c++) {
+    blk[32] = c >>> 24; blk[33] = (c >>> 16) & 255; blk[34] = (c >>> 8) & 255; blk[35] = c & 255;
+    var ks = acrSha256(blk);
+    for (var i = 0; i < 32 && off + i < data.length; i++) out[off + i] = data[off + i] ^ ks[i];
+  }
+  return out;
+}
+
+function acrB64(bytes) {
+  var s = '';
+  for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+function acrUnB64(s) {
+  var bin = atob(s), out = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function acrEncrypt(key, obj) { return acrB64(acrXor(key, acrUtf8(JSON.stringify(obj)))); }
+function acrDecrypt(key, b64) { return JSON.parse(new TextDecoder().decode(acrXor(key, acrUnB64(b64)))); }
+
+// Excel suele perder el cero inicial (01234567 -> 1234567) o guardar 45871236.0
+function acrNormDni(v) {
+  if (typeof v === 'number') v = Math.round(v);
+  var s = String(v == null ? '' : v).trim().toUpperCase().replace(/\.0+$/, '').replace(/[^0-9A-Z]/g, '');
+  if (/^\d+$/.test(s) && s.length < 8) s = s.padStart(8, '0');
+  return s;
+}
+
+// En el archivo suelto los datos van aquí; en la app instalable es null y se leen de datos.json
+var DATA = null;
+var POR_VENCER_DIAS = 30;
+var DATOS_ANTIGUOS_DIAS = 15;
+var LIMPIAR_TRAS_MS = 3 * 60 * 1000;
+
+var $ = function (id) { return document.getElementById(id); };
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+function hoy() { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function aFecha(iso) { var p = iso.split('-'); return new Date(+p[0], p[1] - 1, +p[2]); }
+function fmt(iso) { if (!iso) return '—'; var p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+function diasHasta(iso) { return Math.round((aFecha(iso) - hoy()) / 864e5); }
+
+// Con fecha, el estado se calcula con el día de hoy (así se mantiene correcto aunque los datos no se actualicen).
+// Sin fecha, se usa el estado que venía en el Excel.
+function estado(venc, fijo) {
+  if (venc) {
+    var d = diasHasta(venc);
+    if (d < 0) return { k: 'bad', t: 'Vencido', o: 0, d: d };
+    if (d <= POR_VENCER_DIAS) return { k: 'warn', t: 'Por vencer', o: 1, d: d };
+    return { k: 'ok', t: 'Vigente', o: 2, d: d };
+  }
+  var f = (fijo || '').toLowerCase();
+  if (/vencid|caducad/.test(f)) return { k: 'bad', t: 'Vencido', o: 0 };
+  if (/por vencer/.test(f)) return { k: 'warn', t: 'Por vencer', o: 1 };
+  if (/vigente/.test(f)) return { k: 'ok', t: 'Vigente', o: 2 };
+  return { k: 'na', t: fijo || 'Sin vencimiento', o: 3 };
+}
+function textoDias(e) {
+  if (e.d == null) return '';
+  if (e.d < 0) return 'Venció hace ' + (-e.d) + (e.d === -1 ? ' día' : ' días');
+  if (e.d === 0) return 'Vence hoy';
+  return 'Vence en ' + e.d + (e.d === 1 ? ' día' : ' días');
+}
+
+function usarDatos(d, desdeCache) {
+  DATA = d;
+  $('fechaDatos').innerHTML = 'Datos actualizados al ' + fmt(DATA.fecha) + (desdeCache ? ' · <span class="off">sin conexión, copia guardada</span>' : '');
+  var antig = -diasHasta(DATA.fecha);
+  $('aviso').hidden = antig <= DATOS_ANTIGUOS_DIAS;
+  if (!$('aviso').hidden) $('aviso').textContent = 'Estos datos tienen ' + antig + ' días de antigüedad. ' +
+    (desdeCache ? 'Conéctate a internet un momento para actualizarlos.' : 'Pide la versión más reciente a tu supervisor.');
+  $('btn').disabled = false;
+}
+
+function cargarDatos() {
+  return fetch('datos.json', { cache: 'no-store' }).then(function (r) {
+    if (!r.ok) throw new Error(r.status);
+    var cache = r.headers.get('X-Desde-Cache') === '1';
+    return r.json().then(function (d) { usarDatos(d, cache); });
+  }).catch(function () {
+    if (DATA) return;
+    $('fechaDatos').textContent = 'Sin datos todavía';
+    $('aviso').textContent = 'Abre esta página una vez con internet para descargar los datos. Después funciona sin señal.';
+    $('aviso').hidden = false;
+  });
+}
+
+if (DATA) usarDatos(DATA, false);
+else {
+  cargarDatos();
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  // Al volver a la app (p. ej. al recuperar señal) intenta traer datos nuevos
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) cargarDatos(); });
+  window.addEventListener('online', cargarDatos);
+  prepararInstalacion();
+}
+
+function prepararInstalacion() {
+  var instalada = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (instalada) return;
+  var pedido = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); pedido = e; $('instalar').hidden = false;
+  });
+  $('instalarBtn').onclick = function () {
+    if (!pedido) return;
+    pedido.prompt();
+    pedido.userChoice.then(function () { pedido = null; $('instalar').hidden = true; });
+  };
+  window.addEventListener('appinstalled', function () { $('instalar').hidden = true; });
+  if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+    $('instalarTxt').innerHTML = 'Para usarla sin señal: toca <b>Compartir</b> y luego <b>Agregar a inicio</b>.';
+    $('instalarBtn').hidden = true;
+    $('instalar').hidden = false;
+  }
+}
+
+var timer = null;
+function programarLimpieza() {
+  clearTimeout(timer);
+  timer = setTimeout(limpiar, LIMPIAR_TRAS_MS);
+}
+function limpiar() {
+  clearTimeout(timer);
+  $('res').innerHTML = '';
+  $('dni').value = '';
+  $('dni').focus();
+}
+
+$('f').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  if (!DATA) return;
+  var dni = acrNormDni($('dni').value);
+  if ($('dni').value.replace(/[^0-9A-Za-z]/g, '').length < 8) {
+    $('res').innerHTML = '<div class="card vacio"><div class="ico">⚠️</div><strong>Revisa el número</strong><p>El DNI debe tener 8 dígitos.</p></div>';
+    return;
+  }
+  var btn = $('btn');
+  btn.disabled = true; btn.textContent = 'Buscando…';
+  // Deja que el navegador pinte "Buscando…" antes del cálculo
+  setTimeout(function () {
+    var r = null;
+    try {
+      var k = acrDerive(DATA.salt, dni, DATA.iter);
+      if (Object.prototype.hasOwnProperty.call(DATA.r, k.idx)) r = acrDecrypt(k.key, DATA.r[k.idx]);
+    } catch (e) { r = null; }
+    btn.disabled = false; btn.textContent = 'Consultar';
+    mostrar(dni, r);
+    $('dni').blur();
+    programarLimpieza();
+  }, 30);
+});
+
+function mostrar(dni, r) {
+  var res = $('res');
+  if (!r) {
+    res.innerHTML = '<div class="card vacio"><div class="ico">🔍</div><strong>No encontramos el DNI ' + esc(dni) + '</strong>' +
+      '<p>Verifica el número. Si es correcto, consulta con tu supervisor o con el área de Capacitación.</p></div>' +
+      '<button class="sec" type="button" id="nueva">Nueva consulta</button>';
+    $('nueva').onclick = limpiar;
+    return;
+  }
+  var cursos = r.c.map(function (c) { return { nombre: c[0], emi: c[1], venc: c[2], e: estado(c[2], c[3]) }; });
+  cursos.sort(function (a, b) {
+    return a.e.o - b.e.o || (a.e.d == null || b.e.d == null ? 0 : a.e.d - b.e.d) || a.nombre.localeCompare(b.nombre, 'es');
+  });
+  var cuenta = { bad: 0, warn: 0, ok: 0, na: 0 };
+  cursos.forEach(function (c) { cuenta[c.e.k]++; });
+  var etiquetas = { ok: ['vigente', 'vigentes'], warn: ['por vencer', 'por vencer'], bad: ['vencido', 'vencidos'], na: ['sin vencimiento', 'sin vencimiento'] };
+  var chips = ['bad', 'warn', 'ok', 'na'].filter(function (k) { return cuenta[k]; }).map(function (k) {
+    return '<span class="chip ' + k + '">' + cuenta[k] + ' ' + etiquetas[k][cuenta[k] === 1 ? 0 : 1] + '</span>';
+  }).join('');
+  var meta = ['DNI ' + esc(dni)];
+  if (r.p) meta.push(esc(r.p));
+  if (r.e) meta.push(esc(r.e));
+  if (r.a) meta.push(esc(r.a));
+
+  var html = '<div class="card persona"><div class="nombre">' + esc(r.n || 'Trabajador') + '</div>' +
+    '<div class="meta">' + meta.join(' · ') + '</div>' + (chips ? '<div class="resumen">' + chips + '</div>' : '') + '</div>';
+  if (!cursos.length) {
+    html += '<div class="card vacio" style="margin-top:12px"><div class="ico">📋</div><strong>No registra acreditaciones</strong>' +
+      '<p>Si llevaste algún curso y no aparece, consulta con tu supervisor o con el área de Capacitación.</p></div>';
+  }
+  html += '<div class="lista">';
+  cursos.forEach(function (c) {
+    var fechas = [];
+    if (c.emi) fechas.push('<span>Emisión: <b>' + fmt(c.emi) + '</b></span>');
+    if (c.venc) fechas.push('<span>Vence: <b>' + fmt(c.venc) + '</b></span>');
+    html += '<div class="curso k-' + c.e.k + '"><div class="cab"><div class="tit">' + esc(c.nombre) + '</div>' +
+      '<span class="chip ' + c.e.k + '">' + esc(c.e.t) + '</span></div>' +
+      (fechas.length ? '<div class="fechas">' + fechas.join('') + '</div>' : '') +
+      (c.e.d != null ? '<div class="dias" style="color:var(--' + c.e.k + ')">' + textoDias(c.e) + '</div>' : '') +
+      '</div>';
+  });
+  html += '</div><button class="sec" type="button" id="nueva">Nueva consulta</button>';
+  res.innerHTML = html;
+  $('nueva').onclick = limpiar;
+}
+
+['click', 'keydown', 'touchstart', 'scroll'].forEach(function (t) {
+  document.addEventListener(t, function () { if ($('res').innerHTML) programarLimpieza(); }, { passive: true });
+});
+</script>
+</body>
+</html>
