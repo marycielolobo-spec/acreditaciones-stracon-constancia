@@ -339,7 +339,7 @@ function mostrar(dni, r) {
   });
   var cuenta = { bad: 0, warn: 0, ok: 0, na: 0 };
   cursos.forEach(function (c) { cuenta[c.e.k]++; });
-  var etiquetas = { ok: ['vigente', 'vigentes'], warn: ['por vencer', 'por vencer'], bad: ['vencido', 'vencidos'], na: ['sin vencimiento', 'sin vencimiento'] };
+  var etiquetas = { ok: ['vigente', 'vigentes'], warn: ['por vencer', 'por vencer'], bad: ['vencido', 'vencidos'], na: ['sin fecha', 'sin fecha'] };
   var chips = ['bad', 'warn', 'ok', 'na'].filter(function (k) { return cuenta[k]; }).map(function (k) {
     return '<span class="chip ' + k + '">' + cuenta[k] + ' ' + etiquetas[k][cuenta[k] === 1 ? 0 : 1] + '</span>';
   }).join('');

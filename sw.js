@@ -1,7 +1,7 @@
 // Guarda la app en el celular para usarla sin señal.
 // La app (página e íconos) se sirve desde la copia guardada; datos.json se intenta bajar
 // de internet y, si no hay señal o tarda, se usa la última copia guardada.
-var VERSION = 'acr-app-mvn02cri';
+var VERSION = 'acr-app-mw9vo07g';
 var DATOS = 'acr-datos';
 var ESPERA_MS = 4000;
 var APP = ['./', './index.html', './manifest.webmanifest', './icono-192.png', './icono-512.png'];
